@@ -90,6 +90,9 @@ express()
 		name : name
 			});
 	})
+    .get('/addTask/:json', function(req, res){
+	    var info = req.params.json;
+	})
     .listen(PORT, () => console.log(`Listening on ${ PORT }`))
 
 

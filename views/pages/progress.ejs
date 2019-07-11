@@ -44,7 +44,9 @@
       function addTask(name) {
         alert("Inside task");
         var task = document.getElementById(name).value;
+        alert(task);
         var date = document.getElementById("year").value + "-" + document.getElementById("month").value + "-" + document.getElementById("day").value;
+        alert(date);
         var array = {
         name : name,
         task : task,
@@ -58,6 +60,7 @@
          xhttp.open("GET", "", true);
          xhttp.send();
          }
+      }
     </script>
   </head>
   <body>
@@ -69,7 +72,7 @@
 	 <div id=<%= userValue.object[i].studentid %>></div>
 	 <% } %>
     </div><br>
-    <button onclick=add("<%= userValue.name %>")>Add A Task</button>
-    <div id="add"></div>
+    <button onclick='add("<%= userValue.name %>")'>Add A Task</button>
+    <div id="add">hello</div>
   </body>
 </html>
