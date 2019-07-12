@@ -21,8 +21,32 @@
                document.getElementById(id).innerHTML = this.responseText;
             }
          };
-         xhttp.open("GET", "/add", true);
+         xhttp.open("GET", "/edit/"+id, true);
          xhttp.send();
+      }
+      function editTask(json) {
+      var obj = JSON.parse(json);
+      var name = obj.name;
+      var id = obj.studentid;
+      var task = document.getElementById(obj.task).value;
+        var date = document.getElementById("eYear").value + "-" + document.getElementById("eMonth").value + "-" + document.getElementById("eDay").value;
+      var array = {
+        id : id,
+        name : name,
+        task : task,
+        date : date
+        };
+        var str = JSON.stringify(array);
+        alert(str);
+        var xhttp = new XMLHttpRequest();
+         xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+               document.getElementById("tasks").innerHTML = this.responseText;
+            }
+         };
+         xhttp.open("GET", "/editTask/"+str, true);
+         xhttp.send();
+
       }
       function add(name) {
          if (aors == true) {
@@ -42,11 +66,8 @@
          }
       }
       function addTask(name) {
-        alert("Inside task");
         var task = document.getElementById(name).value;
-        alert(task);
         var date = document.getElementById("year").value + "-" + document.getElementById("month").value + "-" + document.getElementById("day").value;
-        alert(date);
         var array = {
         name : name,
         task : task,
@@ -56,10 +77,17 @@
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function() {
          if (this.readyState == 4 && this.status == 200) {
+            document.getElementById(name).innerHTML = "";
+            aors = true;
+            alert(this.responseText);
+            document.getElementById("tasks").innerHTML = this.responseText;
             }
-         xhttp.open("GET", "", true);
-         xhttp.send();
          }
+         xhttp.open("GET", "/addTask/"+str, true);
+         xhttp.send();
+      }
+      function getColor(json) {
+      alert("got in");
       }
     </script>
   </head>
@@ -68,8 +96,22 @@
     <h2>Current Tasks</h2>
     <div id="tasks">
       <% for (var i = 0; i < userValue.size; i++) { %>
+	 <% 
+	    var today = new Date();
+	    var color = "green";
+	    var diffTime = userValue.object[i].duedate.getTime() - today.getTime();
+	    var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+	    if (diffDays < 14) {
+	      color = "yellow";
+	      if (diffDays < 7) {
+                    color = "red";
+              }
+	      }
+					      %>
+	 <div style="background-color:<%= color %>;">
 	 <input type="checkbox" onclick="request(<%=userValue.object[i].studentid%>)"> <button onclick="edit(<%= userValue.object[i].studentid %>)">Edit</button><%= userValue.task[i] %> <br>
-	 <div id=<%= userValue.object[i].studentid %>></div>
+	 <div id=<%= userValue.object[i].studentid %>></div></div>
 	 <% } %>
     </div><br>
     <button onclick='add("<%= userValue.name %>")'>Add A Task</button>

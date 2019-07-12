@@ -1,7 +1,5 @@
 <% for (var i = 0; i < userValue.size; i++) { %>
-   <% if(userValue.object[i].studentid != userValue.skip) {%>
-
-<%
+   <%
             var today = new Date();
             var color = "green";
             var diffTime = userValue.object[i].duedate.getTime() - today.getTime();
@@ -15,7 +13,6 @@
               }
                                               %>
          <div style="background-color:<%= color %>;">
-
          <input type="checkbox" onclick="request(<%=userValue.object[i].studentid%>)"> <button onclick="edit(<%= userValue.object[i].studentid %>)">Edit</button><%= userValue.task[i] %> <br>
          <div id=<%= userValue.object[i].studentid %>></div></div>
-         <% } %><% } %>
+         <% } %>

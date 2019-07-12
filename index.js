@@ -11,12 +11,12 @@ const pool = new Pool({connectionString: connectionString});
 var sql = "SELECT * FROM progress";
 
 express()
-  .use(express.static(path.join(__dirname, 'public')))
+    .use(express.static(path.join(__dirname, 'public')))
     .use(parser.urlencoded({ extended: false }))
     .use(parser.json())
 
-  .set('views', path.join(__dirname, 'views'))
-  .set('view engine', 'ejs')
+    .set('views', path.join(__dirname, 'views'))
+    .set('view engine', 'ejs')
     .get('/', (req, res) => res.render('pages/login'))
     .post('/progress', function(req, res) {
 	    sql = sql + " WHERE name = '" + req.body.name + "'";
@@ -92,6 +92,63 @@ express()
 	})
     .get('/addTask/:json', function(req, res){
 	    var info = req.params.json;
+	    var obj = JSON.parse(info);
+	    var add = "INSERT INTO progress (name, task, duedate) VALUES (" + "'" + obj.name + "', '" + obj.task + "', '" + obj.date + "')";
+	    pool.query(add, function(err, result) {
+                    if (err) {
+                        console.log("Error in query: ")
+                        console.log(err);
+                    }
+	    pool.query("SELECT * FROM progress WHERE name = '" + obj.name + "'", function(err, result) {
+		    if (err) {
+			console.log("Error in query: ")
+			    console.log(err);
+		    }
+		    console.log(result.rows);
+		    var data = {
+			task : getTasks(result.rowCount, result.rows),
+			size : result.rowCount,
+			object : result.rows,
+       		    };
+		    res.render('pages/addTask', {
+			    userValue : data
+			});
+		});
+		});
+	})
+    .get('/edit/:id', function(req, res){
+	    pool.query("SELECT * FROM progress WHERE studentid = " + req.params.id, function(err, result){
+		    if (err) {
+                        console.log("Error in query: ")
+                            console.log(err);
+                    }
+		    var obj = result.rows[0];
+		    res.render('pages/edit', { data : obj })
+		});
+	})
+    .get('/editTask/:json', function(req, res) {
+	    var obj = JSON.parse(req.params.json);
+	    pool.query("UPDATE progress SET task = '" + obj.task +"', duedate = '" + obj.date + "' WHERE studentid = " + obj.id, function(err, result){
+		    if (err) {
+                        console.log("Error in query: ")
+                            console.log(err);
+                    }
+		    pool.query("SELECT * FROM progress WHERE name ='"+ obj.name +"'", function(err, result) {
+			    if (err) {
+				console.log("Error in query: ")
+				    console.log(err);
+			    }
+			    console.log(result.rows);
+			    var data = {
+				task : getTasks(result.rowCount, result.rows),
+				size : result.rowCount,
+				object : result.rows,
+			    };
+			    res.render('pages/addTask', {
+				    userValue : data
+					});
+			});
+		});
 	})
     .listen(PORT, () => console.log(`Listening on ${ PORT }`))
 

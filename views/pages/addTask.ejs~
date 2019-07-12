@@ -1,0 +1,4 @@
+<% for (var i = 0; i < userValue.size; i++) { %>
+         <input type="checkbox" onclick="request(<%=userValue.object[i].studentid%>)"> <button onclick="edit(<%= userValue.object[i].studentid %>)">Edit</button><%= userValue.task[i] %> <br>
+         <div id=<%= userValue.object[i].studentid %>></div>
+         <% } %>

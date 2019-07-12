@@ -1,5 +1,20 @@
 <% for (var i = 0; i < userValue.size; i++) { %>
-   <% if(userValue.object[i].studentid != userValue.skip) %>
+   <% if(userValue.object[i].studentid != userValue.skip) {%>
+
+   <%
+            var today = new Date();
+            var color = "green";
+            var	diffTime = userValue.object[i].duedate.getTime() - today.getTime();
+            var	diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+            if (diffDays < 14) {
+	          color = "yellow";
+		        } 
+            if (diffDays < 7) {
+                    color = "red";
+              }
+		                              %>
+
          <input type="checkbox" onclick="request(<%=userValue.object[i].studentid%>)"> <button onclick="edit(<%= userValue.object[i].studentid %>)">Edit</button><%= userValue.task[i] %> <br>
          <div id=<%= userValue.object[i].studentid %>></div>
-         <% } %>
+         <% } %><% } %>

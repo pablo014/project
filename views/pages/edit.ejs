@@ -1,0 +1,35 @@
+Task: <input type="text" id="<%= data.task  %>" value="<%= data.task  %>"> <br>
+Due Date: <select id="eMonth">
+    <% for(var i=1; i<13; i++) {%>
+    <% if ((i - 1) != data.duedate.getMonth()) {%>
+    <option value=<%= i %>><%= i %></option>
+    <% } %>
+    <% if((i - 1) == data.duedate.getMonth()){ %>
+    <option value=<%= i %> selected="selected"><%= i %></option>
+    <% } %>
+    <% } %>
+    </select>
+    <select id="eDay">
+    <% for(var i=1; i<32; i++) {%>
+    <% if ((i) != data.duedate.getDate()) {%>
+    <option value=<%= i %>><%= i %></option>
+    <% } %>
+    <% if((i) == data.duedate.getDate()) {%>
+    <option value=<%= i %> selected="selected"><%= i %></option>
+    <% } %>
+    <% } %>
+    </select>
+    <select id="eYear">
+    <%
+    var today = new Date();
+    var year = today.getFullYear();
+    for(var i = year; i < year + 3; i++) { %>
+    <% if (i != data.duedate.getFullYear()) { %>
+    <option value="<%= i %>"><%= i %></option>
+    <% } %>
+    <% if(i == data.duedate.getFullYear()) { %>
+    <option value="<%= i %>" selected="selected"><%= i %></option>
+    <% } %>
+    <% } %>
+    </select>
+<button onclick="editTask('<%=JSON.stringify(data)%>')">Edit Task</button>
