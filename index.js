@@ -155,6 +155,7 @@ express()
 
     function getTasks(size, data) {
     var task = new Array();
+    var test = "";
     for (var i = 0; i < size; i++)
 	{
 	    task[i] = data[i].task + " " + (data[i].duedate.getMonth() + 1) + "/" + data[i].duedate.getDate() + "/" + data[i].duedate.getFullYear();

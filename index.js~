@@ -127,8 +127,7 @@ express()
 		});
 	})
     .get('/editTask/:json', function(req, res) {
-	    console.log(req.params.json);
-	    var obj = JSON.parse(req.param.json);
+	    var obj = JSON.parse(req.params.json);
 	    pool.query("UPDATE progress SET task = '" + obj.task +"', duedate = '" + obj.date + "' WHERE studentid = " + obj.id, function(err, result){
 		    if (err) {
                         console.log("Error in query: ")
