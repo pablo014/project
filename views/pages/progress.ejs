@@ -2,6 +2,18 @@
 <html>
   <head>
     <title>Task Menu</title>
+    <style>
+      body {
+     background-color: gray;
+}
+#list {
+      margin-right: 300px;
+      padding-top: 25px;
+      padding-bottom: 25px;
+      border-radius: 5px;
+}
+
+    </style>
     <script>
       var aors = true;
       function request(str) {
@@ -98,15 +110,15 @@
 	    var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
 	    if (diffDays < 14) {
-	      color = "yellow";
+	      color = "goldenrod";
 	      if (diffDays < 7) {
-                    color = "red";
+                    color = "firebrick";
               }
 	      }
 					      %>
-	 <div style="background-color:<%= color %>;">
+	 <div style="background-color:<%= color %>;" id="list">
 	 <input type="checkbox" onclick="request(<%=userValue.object[i].studentid%>)"> <button onclick="edit(<%= userValue.object[i].studentid %>)">Edit</button><%= userValue.task[i] %> <br>
-	 <div id=<%= userValue.object[i].studentid %>></div></div>
+	 <div id=<%= userValue.object[i].studentid %>></div></div><br>
 	 <% } %>
     </div><br>
     <button onclick='add("<%= userValue.name %>")'>Add A Task</button>
